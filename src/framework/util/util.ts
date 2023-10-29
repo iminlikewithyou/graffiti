@@ -12,7 +12,9 @@ function thereIsNoGraffitiInstance() {
   return graffitiInstance;
 }
 
-export function getGraffitiContainer()
+export function getGraffitiContainer() {
+  // TODO
+}
 
 export function getGraffitiLocation() {
   return ServerStorage.FindFirstChild("Graffiti Editor")
