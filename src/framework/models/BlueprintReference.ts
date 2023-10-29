@@ -1,4 +1,4 @@
-export default class BlueprintReference {
+export class BlueprintReference {
   public blueprintInstance: Instance;
   public changeReferenceEvent: BindableEvent = new Instance("BindableEvent");
 

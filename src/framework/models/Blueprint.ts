@@ -1,8 +1,8 @@
-import BlueprintReference from "./BlueprintReference";
+import { BlueprintReference } from "./BlueprintReference";
 
 export type BlueprintCreateable = BlueprintReference;
 
-export default class Blueprint {
+export class Blueprint {
   public blueprintReference: BlueprintReference;
   // public scale: number;
 
@@ -18,6 +18,8 @@ export default class Blueprint {
   }
 
   scale(scale: number) {
-    this.model.ScaleTo(scale);
+    if (this.blueprintReference.blueprintInstance.IsA("Model")) {
+      this.blueprintReference.blueprintInstance.ScaleTo(scale);
+    }
   }
 }

@@ -1,4 +1,4 @@
-export default class ViewportLayer {
+export class ViewportLayer {
   constructor() {
     print('ViewportLayer')
   }

@@ -14,7 +14,7 @@ function getLostAndFoundFolder() {
 
 // Warn if the Lost and Found gets too large
 
-export default class Container {
+export class Container {
   public containerInstance: Instance;
 
   constructor(name: string, classType: keyof CreatableInstances, parent: Instance) {
