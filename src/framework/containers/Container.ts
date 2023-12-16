@@ -19,8 +19,42 @@ function getLostAndFoundFolder() {
 
 export class Container {
   public containerInstance: Instance;
+  public originalParent: Instance;
 
-  constructor(name: string, classType: keyof CreatableInstances, parent: Instance) {
+  public connections: RBXScriptConnection[] = [];
+
+  private protectParent() {
+    this.connections[0] = this.containerInstance.Destroying.Connect(() => {
+      warn(
+        `The ${this.containerInstance.Name} container was destroyed.`
+        + "\nThis will most likely cause issues. Please restart the instance if you encounter any."
+      );
+    });
+
+    this.connections[1] = this.originalParent.Destroying.Connect(() => {
+      warn(
+        `The ${this.containerInstance.Name} container parent was destroyed.`
+        + "\nThis will most likely cause issues. Please restart the instance if you encounter any."
+      );
+    });
+
+    this.connections[2] = this.containerInstance.GetPropertyChangedSignal("Parent").Connect(() => {
+      if (this.containerInstance.Parent !== this.originalParent) {
+        warn(
+          `The ${this.containerInstance.Name} container from ${this.originalParent.Name} has been moved.`
+          + "\nThis is not recommended. Please move it back."
+        );
+      }
+    });
+  }
+
+  constructor(name: string, classType: keyof CreatableInstances, parent: Container | Instance) {
+    // If the parent is a container, get the container instance
+    if (parent instanceof Container) {
+      parent = parent.containerInstance;
+    }
+    this.originalParent = parent;
+
     // Find the container instance using the name of this container
     let locatedContainer = parent.FindFirstChild(name);
 
@@ -61,5 +95,8 @@ export class Container {
 
       this.containerInstance = newContainer;
     }
+
+    // Protect the container (what does this even mean)
+    this.protectParent();
   }
 }
