@@ -1,8 +1,9 @@
+import { Element2, Element3, UDim3 } from "../screen/Element";
 import { BlueprintReference } from "./BlueprintReference";
 
 export type BlueprintCreateable = BlueprintReference;
 
-export class Blueprint {
+export class Blueprint implements Element3 {
   public blueprintReference: BlueprintReference;
   // public scale: number;
 
@@ -15,6 +16,11 @@ export class Blueprint {
     } else {
       error("Blueprint couldn't be created from", createable);
     }
+  }
+  async proxyTo(parent: Element3, position: UDim3, tween: TweenInfo): Promise<void>;
+  async proxyTo(parent: Element2, position: UDim2, tween: TweenInfo): Promise<void>;
+  async proxyTo(parent: unknown, position: unknown, tween: unknown): Promise<void> {
+
   }
 
   scale(scale: number) {
